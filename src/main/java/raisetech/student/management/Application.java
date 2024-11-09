@@ -25,13 +25,9 @@ public class Application {
 	}
 
 	@GetMapping("/student")
-	public List<String> getStudent(){
-		List<Student> allStudents =repository.getAllStudents();
-		List<String> studentInfo = new ArrayList<>();
-		for(Student student:allStudents) {
-			studentInfo.add(student.getName()+ " " +student.getAge()+"歳");
-		}
-		return studentInfo;
+	public List<Student> getStudent(){
+		List<Student> allAtudentsList = repository.getAllStudents() ;
+		return allAtudentsList;
 	}
 
 	@PostMapping("/student")

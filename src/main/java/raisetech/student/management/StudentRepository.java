@@ -6,11 +6,10 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 @Mapper
 public interface StudentRepository {
-  @Select("SELECT * FROM student")
+  @Select("SELECT * FROM students")
   List<Student> getAllStudents();
 
   @Insert("INSERT student values(#{name},#{age})")

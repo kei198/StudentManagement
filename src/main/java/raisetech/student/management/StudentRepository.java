@@ -12,6 +12,9 @@ public interface StudentRepository {
   @Select("SELECT * FROM students")
   List<Student> getAllStudents();
 
+  @Select("SELECT * FROM students_courses")
+  List<StudentCourse> getAllStudentsCourses();
+
   @Insert("INSERT student values(#{name},#{age})")
   void registerStudent(String name,int age);
 

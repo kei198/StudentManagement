@@ -21,8 +21,13 @@ public class Application {
 	}
 
 	@GetMapping("/studentsList")
-	public List<Student> getStudent(){
+	public List<Student> getStudents(){
 		return repository.getAllStudents() ;
+	}
+
+	@GetMapping("/studentsCoursesList")
+	public List<StudentCourse> getStudentsCourses(){
+		return repository.getAllStudentsCourses();
 	}
 
 }

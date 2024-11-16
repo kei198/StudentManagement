@@ -56,5 +56,4 @@ public class StudentService {
     repository.updateCourse(studentCourse);
   }
 
-
 }

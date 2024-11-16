@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>受講生更新</title>
@@ -7,7 +7,6 @@
 <body>
 <h1>受講生更新</h1>
 <form th:action="@{/updateStudent}" th:object="${studentDetail}" method="post">
-
   <div>
     <label for="id">id :</Label>
     <input type="text" id="id" th:field="*{student.id}" required readonly/>
@@ -61,7 +60,11 @@
       </div>
     </div>
   <div>
-    <button type="submit">登録</button>
+    <input type="checkbox" id="isDeleted" th:field="*{student.isDeleted}" th:checked="*{student.isDeleted}"><label for="isDeleted">無効</label>
+  </div>
+
+  <div>
+    <button type="submit">更新</button>
   </div>
 </form>
 

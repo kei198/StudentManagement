@@ -64,9 +64,7 @@ public class StudentController {
       return "registerStudent";
     }
     service.updateStudent(studentDetail.getStudent());
-    for(StudentCourse sc:studentDetail.getStudentsCourses()){
-      service.updateCourse(sc);
-    }
+    studentDetail.getStudentsCourses().forEach(sc -> service.updateCourse(sc));
     return "redirect:/studentsList";
   }
 

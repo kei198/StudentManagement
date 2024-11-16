@@ -24,6 +24,9 @@ public interface StudentRepository {
   @Select("SELECT MAX(id) FROM students;")
   int searchStudentId();
 
+  @Select("SELECT * FROM students_courses WHERE students_id = #{studentId}")
+  List<StudentCourse> getStudentsCourses(int studentId);
+
   @Insert("INSERT INTO students (name,ruby,mailaddress,address,age,gender,nickname,remark) "
       + "Values (#{name},#{ruby},#{mailaddress},#{address},#{age},#{gender},#{nickname},#{remark})")
   void addStudent(Student student);
@@ -35,6 +38,11 @@ public interface StudentRepository {
   @Update("UPDATE students set name = #{name},ruby=#{ruby},mailaddress=#{mailaddress},address=#{address},age=#{age},gender=#{gender},nickname=#{nickname},remark=#{remark}"
       + " WHERE id = #{id}")
   void updateStudent(Student student);
+
+  @Update("UPDATE students_courses set course=course,start_day=#{startDay},completion_day=#{completionDay}"
+      + " WHERE id = #{id}")
+  void updateCourse(StudentCourse studentCourse);
+
 }
 
 

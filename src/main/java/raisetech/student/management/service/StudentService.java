@@ -25,6 +25,10 @@ public class StudentService {
     return repository.searchStudentsCourses();
   }
 
+  public List<StudentCourse> getStudentsCourse(int studentId){
+    return repository.getStudentsCourses(studentId);
+  }
+
   public Student searchStudent(int id){
     return repository.searchStudent(id);
   }
@@ -45,6 +49,11 @@ public class StudentService {
   @Transactional
   public void updateStudent(Student updateStudent){
     repository.updateStudent(updateStudent);
+  }
+
+  @Transactional
+  public void updateCourse(StudentCourse studentCourse){
+    repository.updateCourse(studentCourse);
   }
 
 

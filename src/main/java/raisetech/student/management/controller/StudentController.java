@@ -53,6 +53,7 @@ public class StudentController {
   public String updateStudent(@PathVariable("id") int id, Model model) {
     StudentDetail studentDetail = new StudentDetail();
     studentDetail.setStudent(service.searchStudent(id));
+    studentDetail.setStudentsCourses(service.getStudentsCourse(studentDetail.getStudent().getId()));
     model.addAttribute("studentDetail",studentDetail);
     return "updateStudent";
   }
@@ -63,6 +64,9 @@ public class StudentController {
       return "registerStudent";
     }
     service.updateStudent(studentDetail.getStudent());
+    for(StudentCourse sc:studentDetail.getStudentsCourses()){
+      service.updateCourse(sc);
+    }
     return "redirect:/studentsList";
   }
 

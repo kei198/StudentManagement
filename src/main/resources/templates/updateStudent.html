@@ -44,21 +44,22 @@
     <label for="remark">備考 :</Label>
       <input type="text" id="remark" th:field="*{student.remark}"  />
   </div>
-<!--  <div th:each="course, stat : *{studentsCourses}">
+  <div th:each="course, stat : *{studentsCourses}">
     <div>
-        <label for="course">コース :</Label>
-        <input type="text" id="course" th:field="*{studentsCourses[__${stat.index}__].course}" required />
+      <label for="courseId">コースID :</Label>
+      <input type="text" id="courseId" th:field="*{studentsCourses[__${stat.index}__].id}" required readonly/>
+      <label for="course">コース :</Label>
+       <input type="text" id="course" th:field="*{studentsCourses[__${stat.index}__].course}" required />
       </div>
      <div>
         <label for="startDay">開始日 :</Label>
-        <input type="date" id="startDay" th:field="*{studentsCourses[__${stat.index}__].startDay}" required />
+        <input type="date" id="startDay" th:field="*{studentsCourses[__${stat.index}__].startDay}"  required />
       </div>
       <div>
         <label for="completionDay">終了日 :</Label>
-        <input type="date" id="completionDay" th:field="*{studentsCourses[__${stat.index}__].completionDay}"  /><br>
+        <input type="date" id="completionDay" th:field="*{studentsCourses[__${stat.index}__].completionDay}" /><br>
       </div>
     </div>
-    -->
   <div>
     <button type="submit">登録</button>
   </div>

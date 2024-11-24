@@ -3,6 +3,7 @@ package raisetech.student.management.repository;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import raisetech.student.management.data.Student;
@@ -16,7 +17,7 @@ public interface StudentRepository {
 
   /**
    * 削除フラグのたっていない受講生の全件検索を行います。
-   * @return
+   * @return 受講生一覧
    */
   @Select("SELECT * FROM students WHERE is_deleted = false")
   List<Student> searchStudents();
@@ -26,24 +27,15 @@ public interface StudentRepository {
    * @return　受講生のコース情報(全件)
    */
   @Select("SELECT * FROM students_courses")
-  List<StudentCourse> searchStudentsCourses();
+  List<StudentCourse> searchStudentCourseList();
 
   /**
-   * 受講生の検索を行います。
+   * 受講生IDに紐づく受講生の検索を行います。
    * @param id　受講生ID
-   * @return　受講生
+   * @return　受講生IDに紐づく受講生
    */
   @Select("SELECT * FROM students WHERE id = #{id}")
   Student searchStudent(int id);
-
-  /**
-   * 登録した受講生のIDを検索します。
-   * データベース側でオートインクリメントで番号が発番されるため
-   * 一番新しいID=登録したIDとみなしています。
-   * @return　登録受講生ID
-   */
-  @Select("SELECT MAX(id) FROM students;")
-  int searchLatestStudentId();
 
   /**
    * 受講生IDに紐づく受講生コース情報を検索します。
@@ -51,7 +43,7 @@ public interface StudentRepository {
    * @return　受講生IDに紐づくコース情報
    */
   @Select("SELECT * FROM students_courses WHERE students_id = #{studentId}")
-  List<StudentCourse> getStudentsCourses(int studentId);
+  List<StudentCourse> getStudentsCourseList(int studentId);
 
   /**
    * 受講生を登録します。
@@ -59,6 +51,7 @@ public interface StudentRepository {
    */
   @Insert("INSERT INTO students (name,ruby,mailaddress,address,age,gender,nickname,remark) "
       + "Values (#{name},#{ruby},#{mailaddress},#{address},#{age},#{gender},#{nickname},#{remark})")
+  @Options(useGeneratedKeys = true,keyProperty = "id")
   void addStudent(Student student);
 
   /**
@@ -68,6 +61,7 @@ public interface StudentRepository {
    */
   @Insert("INSERT INTO students_courses (students_id,course,start_day,completion_day) "
       + "Values(#{studentsId},#{studentCourse.course},#{studentCourse.startDay},#{studentCourse.completionDay})")
+  @Options(useGeneratedKeys = true,keyProperty = "studentCourse.id")
   void addCourse(StudentCourse studentCourse, int studentsId);
 
   /**

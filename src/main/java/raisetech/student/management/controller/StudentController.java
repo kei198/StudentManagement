@@ -3,10 +3,10 @@ package raisetech.student.management.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.student.management.domain.StudentDetail;
@@ -36,53 +36,38 @@ public class StudentController {
   }
 
   /**
-   * 受講生検索
-   * IDに紐づく任意の受講生の情報を取得します。
+   * 受講生詳細検索
+   * IDに紐づく任意の受講生の詳細情報を取得します。
    * @param id　受講生ID
-   * @return　受講生
+   * @return　受講生詳細情報
    */
   @GetMapping("/student/{id}")
   public StudentDetail getStudent(@PathVariable int id){
-    StudentDetail studentDetail = new StudentDetail(service.searchStudent(id),service.getStudentsCourse(id));
+    StudentDetail studentDetail = new StudentDetail(service.searchStudent(id),service.getStudentCourseList(id));
     return studentDetail;
   }
 
   /**
-   *　
-   * @param id
-   * @param model
-   * @return
-   */
-  @GetMapping("/updateStudent/{id}")
-  public String updateStudent(@PathVariable("id") int id, Model model) {
-    StudentDetail studentDetail = new StudentDetail(service.searchStudent(id),service.getStudentsCourse(id));
-    model.addAttribute("studentDetail",studentDetail);
-    return "updateStudent";
-  }
-
-  /**
-   * 受講生の詳細情報を更新します。
+   * 受講生の詳細情報(受講生およびコース情報)を更新します。
    * @param studentDetail　受講生詳細情報　
    * @return　"更新処理が終了しました"
    */
-  @PostMapping("/updateStudent")
+  @PutMapping("/updateStudent")
   public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
     service.updateStudent(studentDetail.getStudent());
-    studentDetail.getStudentsCourses().forEach(sc -> service.updateCourse(sc));
+    studentDetail.getStudentCourseList().forEach(sc -> service.updateCourse(sc));
     return ResponseEntity.ok("更新処理が終了しました");
   }
 
   /**
-   * 受講生を登録します。
+   * 受講生の詳細情報(受講生およびコース情報)を登録します。
    * @param studentDetail　受講生詳細情報
    * @return　登録した受講生詳細情報
    */
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(@RequestBody StudentDetail studentDetail) {
     service.addStudent(studentDetail.getStudent());
-    service.addCourse(studentDetail.getStudentsCourses().getFirst(),service.searchLatestStudentId());
-    studentDetail.setStudent(service.searchStudent(service.searchLatestStudentId()));
-    studentDetail.setStudentsCourses(service.getStudentsCourse(service.searchLatestStudentId()));
+    service.addCourse(studentDetail.getStudentCourseList().getFirst(),studentDetail.getStudent().getId());
     return ResponseEntity.ok(studentDetail);
   }
 

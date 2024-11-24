@@ -32,17 +32,17 @@ public class StudentService {
    */
   public List<StudentDetail> searchStudentsList(){
     List<Student> studentsList = repository.searchStudents();
-    List<StudentCourse> studentsCourses = repository.searchStudentsCourses();
+    List<StudentCourse> studentsCourses = repository.searchStudentCourseList();
     return converter.convertStudentDetails(studentsList,studentsCourses) ;
   }
 
   /**
-   * 受講生のコース情報を取得します。
+   * 受講生IDに紐づくコース情報を取得します。
    * @param studentId　受講生ID
    * @return　受講生IDに紐づくコース情報(リスト)
    */
-  public List<StudentCourse> getStudentsCourse(int studentId){
-    return repository.getStudentsCourses(studentId);
+  public List<StudentCourse> getStudentCourseList(int studentId){
+    return repository.getStudentsCourseList(studentId);
   }
 
   /**
@@ -55,16 +55,7 @@ public class StudentService {
   }
 
   /**
-   * 登録された最新の受講生IDを返す。
-   * 受講生とコースを同時に登録する際に、コースの外部キーである受講生のIDを取得する際に必要。
-   * @return　最新の受講生ID
-   */
-  public  int searchLatestStudentId(){
-    return repository.searchLatestStudentId();
-  }
-
-  /**
-   * 受講生を追加する。
+   * 受講生を追加します。
    * @param addStudent　追加する受講生
    */
   @Transactional
@@ -73,7 +64,7 @@ public class StudentService {
   }
 
   /**
-   * コース情報を追加する
+   * コース情報を追加します。
    * @param studentCourse　コース情報
    * @param studentsId　登録するコースの受講生ID
    */
@@ -83,7 +74,7 @@ public class StudentService {
   }
 
   /**
-   * 受講生情報を更新する。
+   * 受講生情報を更新します。
    * @param updateStudent　更新する受講生
    */
   @Transactional
@@ -93,7 +84,7 @@ public class StudentService {
 
 
   /**
-   * コース情報を更新する。
+   * コース情報を更新します。
    * @param studentCourse　更新するコース
    */
   @Transactional

@@ -1,8 +1,12 @@
 package raisetech.student.management.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +19,7 @@ import raisetech.student.management.service.StudentService;
 /**
  * 受講生の検索や登録、更新などを行うREST　APIとして実行されるControllerです。
  */
+@Validated
 @RestController
 public class StudentController {
 
@@ -42,7 +47,7 @@ public class StudentController {
    * @return　受講生詳細情報
    */
   @GetMapping("/student/{id}")
-  public StudentDetail getStudent(@PathVariable int id){
+  public StudentDetail getStudent(@PathVariable @Min(1) @Max(999) int id){
     StudentDetail studentDetail = new StudentDetail(service.searchStudent(id),service.getStudentCourseList(id));
     return studentDetail;
   }
@@ -53,7 +58,7 @@ public class StudentController {
    * @return　"更新処理が終了しました"
    */
   @PutMapping("/updateStudent")
-  public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail) {
+  public ResponseEntity<String> updateStudent(@RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudent(studentDetail.getStudent());
     studentDetail.getStudentCourseList().forEach(sc -> service.updateCourse(sc));
     return ResponseEntity.ok("更新処理が終了しました");
@@ -67,7 +72,11 @@ public class StudentController {
   @PostMapping("/registerStudent")
   public ResponseEntity<StudentDetail> registerStudent(@RequestBody StudentDetail studentDetail) {
     service.addStudent(studentDetail.getStudent());
-    service.addCourse(studentDetail.getStudentCourseList().getFirst(),studentDetail.getStudent().getId());
+    int studentId = studentDetail.getStudent().getId();
+    studentDetail.getStudentCourseList().forEach(course -> {
+      course.setStudentsId(studentId);
+      service.addCourse(course);
+    });
     return ResponseEntity.ok(studentDetail);
   }
 

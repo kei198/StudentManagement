@@ -65,12 +65,12 @@ public class StudentService {
 
   /**
    * コース情報を追加します。
-   * @param studentCourse　コース情報
-   * @param studentsId　登録するコースの受講生ID
+   *
+   * @param studentCourse 　コース情報
    */
   @Transactional
-  public void addCourse(StudentCourse studentCourse,int studentsId){
-    repository.addCourse(studentCourse,studentsId);
+  public void addCourse(StudentCourse studentCourse){
+    repository.addCourse(studentCourse);
   }
 
   /**

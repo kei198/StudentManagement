@@ -58,7 +58,6 @@ public class StudentService {
    * 受講生を追加します。
    * @param addStudent　追加する受講生
    */
-  @Transactional
   public void addStudent(Student addStudent){
     repository.addStudent(addStudent);
   }
@@ -68,7 +67,6 @@ public class StudentService {
    *
    * @param studentCourse 　コース情報
    */
-  @Transactional
   public void addCourse(StudentCourse studentCourse){
     repository.addCourse(studentCourse);
   }
@@ -77,7 +75,6 @@ public class StudentService {
    * 受講生情報を更新します。
    * @param updateStudent　更新する受講生
    */
-  @Transactional
   public void updateStudent(Student updateStudent){
     repository.updateStudent(updateStudent);
   }
@@ -90,6 +87,10 @@ public class StudentService {
   @Transactional
   public void updateCourse(StudentCourse studentCourse){
     repository.updateCourse(studentCourse);
+  }
+
+  public void testError(){
+
   }
 
 }
